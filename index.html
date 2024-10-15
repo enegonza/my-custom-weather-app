@@ -8,52 +8,60 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
     rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
   <link rel="stylesheet" href="src/styles.css" />
 </head>
 
 <body>
 
-  <title> 🌤️ my weather app </title>
 
   <div class="weather-app">
 
-    <body>
-      <header>
-        <form>
-          <input type="search" placeholder="Enter a city.." required class="search-input" />
-          <input type="submit" value="Search" class="search-button" />
-        </form>
-      </header>
+
+    <header>
+      <form id="city-form">
+        <input type="search" class="search-input" placeholder="Enter a city.." required class="search-input"
+          id="enter-city" />
+        <input type="submit" value="Search" class="search-button" id="search-city-click" />
+      </form>
+    </header>
 
 
-      <main>
-        <div class="current-weather">
-          <div>
-            <h1 class="current-city" id="city-h1">Gaza, Palestine</h1>
-            <p class="current-details">
-              <b id="day-Today"> Today</b><b>;</b>
-              <em id="current-time">14:49</em> // scattered clouds
-              <br />
-              Humidity: <strong>66%</strong>, Wind: <strong>3.13km/h</strong>
-            </p>
-          </div>
-          <div class="current-temp">
-            <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#000000">
-              <path
-                d="M251-160q-88 0-149.5-61.5T40-371q0-78 50-137t127-71q20-97 94-158.5T482-799q112 0 189 81.5T748-522v24q72-2 122 46.5T920-329q0 69-50 119t-119 50H251Zm0-60h500q45 0 77-32t32-77q0-45-32-77t-77-32h-63v-84q0-91-61-154t-149-63q-88 0-149.5 63T267-522h-19q-62 0-105 43.5T100-371q0 63 44 107t107 44Zm229-260Z" />
-            </svg><span class="current-temp-value" id="currTemperature">67 </span><span class="current-temp-unit"> °F
-            </span>
-          </div>
+    <main>
+      <div class="current-weather">
+        <div>
+          <h1 class="current-city" id="city-h1">Gaza, Palestine</h1>
+          <p class="current-details">
+            <b id="day-Today"> Today</b><b>;</b>
+            <em id="current-time">14:49</em> // scattered clouds
+            <br />
+            Humidity: <strong>66%</strong>, Wind: <strong>3.13km/h</strong>
+          </p>
         </div>
-      </main>
-      <footer>
 
-        This project is coded by <a href="https://github.com/enegonza" target="_blank"> Ene Gonza</a>
-        and is open sourced <a href="https://github.com/enegonza/my-custom-weather-app" target="_blank"> on GitHub </a>
-        and hosted <a href="https://soft-axolotl-weather-app.netlify.app/" target="_blank"> Netlify</a>
+        <div class="current-temp-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#000000">
+            <path
+              d="M251-160q-88 0-149.5-61.5T40-371q0-78 50-137t127-71q20-97 94-158.5T482-799q112 0 189 81.5T748-522v24q72-2 122 46.5T920-329q0 69-50 119t-119 50H251Zm0-60h500q45 0 77-32t32-77q0-45-32-77t-77-32h-63v-84q0-91-61-154t-149-63q-88 0-149.5 63T267-522h-19q-62 0-105 43.5T100-371q0 63 44 107t107 44Zm229-260Z" />
+          </svg>
 
-      </footer>
+          <span class="current-temp-value" id="currTemperature">67 </span>
+          <span class="current-temp-unit"> °F</span>
+
+
+        </div>
+      </div>
+    </main>
+    <footer>
+
+      This project is coded by <a href="https://github.com/enegonza" target="_blank"> Ene Gonza</a>
+      and is open sourced <a href="https://github.com/enegonza/my-custom-weather-app" target="_blank"> on GitHub</a>
+      and hosted <a href="https://soft-axolotl-weather-app.netlify.app/" target="_blank"> Netlify</a>
+
+    </footer>
   </div>
+  <script src="src/script.js"></script>
 </body>
 
 </html>
