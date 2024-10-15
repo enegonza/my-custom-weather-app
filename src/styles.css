@@ -110,6 +110,7 @@ footer {
   font-size: 32px;
   position: relative;
   top: -29px;
+  right: auto;
 }
 
 .weather-app {
