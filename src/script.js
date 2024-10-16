@@ -1,33 +1,12 @@
 let days = [
-  "SUNDAY",
-  "MONDAY",
-  "TUESDAY",
-  "WEDNESDAY",
-  "THURSDAY",
-  "FRIDAY",
-  "SATURDAY",
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
 ];
-function crrntDay(todayDay) {
-  let dayChng = document.querySelector("#day-Today");
-  if (dayChng) {
-    dayChng.textContent = days[todayDay.getDay()];
-  }
-}
-
-function updateTime() {
-  let now = new Date();
-  let hours = now.getHours();
-  let minutes = now.getMinutes();
-  let ampm = hours >= 12 ? ` PM` : ` AM`;
-  hours = hours % 12;
-  hours = hours ? hours : 12;
-  minutes = minutes < 10 ? `0` + minutes : minutes;
-  let currentTime = hours + `:` + minutes + ampm;
-  let timeElement = document.querySelector("#current-time");
-  if (timeElement) {
-    timeElement.textContent = currentTime;
-  }
-}
 
 function retrieveWeather(city) {
   let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=e5d23o984ba0b21973288194ctbda24f&units=imperial`;
@@ -41,6 +20,8 @@ function updatedCity(response) {
   let descriptionElement = document.querySelector("#description");
   let humidityElement = document.querySelector("#humidity");
   let windElement = document.querySelector("#wind");
+  let dayElement = document.querySelector("#day-Today");
+  let unixTime = response.data.time;
 
   if (cityElement) {
     cityElement.textContent = cityName;
@@ -49,13 +30,39 @@ function updatedCity(response) {
     let temp = Math.round(response.data.temperature.current);
     tempElement.textContent = `${temp}`;
   }
-
   descriptionElement.innerHTML = response.data.condition.description;
-  humidityElement.innerHTML = `${response.data.temperature.humidity}% `;
+  humidityElement.innerHTML = `${response.data.temperature.humidity}%`;
 
   let windSpeedKmh = response.data.wind.speed;
   let windSpeedMph = (windSpeedKmh * 0.621371).toFixed(2);
   windElement.innerHTML = `${windSpeedMph} mph`;
+
+  let localDate = new Date(unixTime * 1000);
+  dayElement.innerHTML = formatDate(localDate);
+  updateTimeWithAPI(unixTime);
+}
+
+function formatDate(date) {
+  let day = days[date.getDay()];
+  return `${day}`;
+}
+
+function updateTimeWithAPI(unixTime) {
+  let localTime = new Date(unixTime * 1000);
+
+  let hours = localTime.getUTCHours();
+  let minutes = localTime.getUTCMinutes();
+  let ampm = hours >= 12 ? ` PM` : ` AM`;
+  hours = hours % 12;
+  hours = hours ? hours : 12;
+  minutes = minutes < 10 ? `0` + minutes : minutes;
+
+  let currentTime = `${hours}:${minutes}${ampm}`;
+
+  let timeElement = document.querySelector("#current-time");
+  if (timeElement) {
+    timeElement.textContent = currentTime;
+  }
 }
 
 function chngCity(event) {
@@ -67,11 +74,6 @@ function chngCity(event) {
 }
 
 window.onload = function () {
-  let todayDay = new Date();
-  crrntDay(todayDay);
-  updateTime();
-  setInterval(updateTime, 1000);
-
   let defaultCity = "Gaza";
   retrieveWeather(defaultCity);
 
