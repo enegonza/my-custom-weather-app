@@ -29,45 +29,50 @@ function updateTime() {
   }
 }
 
+function retrieveWeather(city) {
+  let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=e5d23o984ba0b21973288194ctbda24f&units=imperial`;
+  axios.get(apiUrl).then(updatedCity);
+}
+
+function updatedCity(response) {
+  let cityName = response.data.city;
+  let cityElement = document.querySelector("#city-h1");
+  let tempElement = document.querySelector("#currTemperature");
+
+  if (cityElement) {
+    cityElement.textContent = cityName;
+  }
+
+  if (tempElement) {
+    let temp = Math.round(response.data.temperature.current);
+    tempElement.textContent = `${temp}`;
+  }
+}
+
 function chngCity(event) {
   event.preventDefault();
   let cityInput = document.querySelector("#enter-city").value.trim();
   if (cityInput) {
     retrieveWeather(cityInput);
   }
+}
 
-  function retrieveWeather(city) {
-    let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=e5d23o984ba0b21973288194ctbda24f&units=imperial`;
-    axios.get(apiUrl).then(updatedCity);
+window.onload = function () {
+  let todayDay = new Date();
+  crrntDay(todayDay);
+  updateTime();
+  setInterval(updateTime, 1000);
+
+  let defaultCity = "Gaza";
+  retrieveWeather(defaultCity);
+
+  let form = document.querySelector("#city-form");
+  if (form) {
+    form.addEventListener("submit", chngCity);
   }
 
-  function updatedCity(response) {
-    let cityName = response.data.city;
-    let cityElement = document.querySelector("#city-h1");
-    let tempElement = document.querySelector("#currTemperature");
-
-    if (cityElement) {
-      cityElement.textContent = cityName;
-    }
-
-    if (tempElement) {
-      let temp = Math.round(response.data.temperature.current);
-      tempElement.textContent = `${temp}`;
-    }
+  let searchButton = document.querySelector("#search-city-click");
+  if (searchButton) {
+    searchButton.addEventListener("click", chngCity);
   }
-}
-
-let todayDay = new Date();
-crrntDay(todayDay);
-updateTime();
-setInterval(updateTime, 1000);
-
-let form = document.querySelector("#city-form");
-if (form) {
-  form.addEventListener("submit", chngCity);
-}
-
-let searchButton = document.querySelector("#search-city-click");
-if (searchButton) {
-  searchButton.addEventListener("click", chngCity);
-}
+};
