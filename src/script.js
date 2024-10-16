@@ -38,15 +38,24 @@ function updatedCity(response) {
   let cityName = response.data.city;
   let cityElement = document.querySelector("#city-h1");
   let tempElement = document.querySelector("#currTemperature");
+  let descriptionElement = document.querySelector("#description");
+  let humidityElement = document.querySelector("#humidity");
+  let windElement = document.querySelector("#wind");
 
   if (cityElement) {
     cityElement.textContent = cityName;
   }
-
   if (tempElement) {
     let temp = Math.round(response.data.temperature.current);
     tempElement.textContent = `${temp}`;
   }
+
+  descriptionElement.innerHTML = response.data.condition.description;
+  humidityElement.innerHTML = `${response.data.temperature.humidity}% `;
+
+  let windSpeedKmh = response.data.wind.speed;
+  let windSpeedMph = (windSpeedKmh * 0.621371).toFixed(2);
+  windElement.innerHTML = `${windSpeedMph} mph`;
 }
 
 function chngCity(event) {
