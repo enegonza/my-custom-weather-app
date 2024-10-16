@@ -21,7 +21,10 @@ function updatedCity(response) {
   let humidityElement = document.querySelector("#humidity");
   let windElement = document.querySelector("#wind");
   let dayElement = document.querySelector("#day-Today");
+  let iconElement = document.querySelector("#icon");
   let unixTime = response.data.time;
+
+  iconElement.innerHTML = ` <img src ="${response.data.condition.icon_url}"  class="current-temp-icon">`;
 
   if (cityElement) {
     cityElement.textContent = cityName;
@@ -30,6 +33,7 @@ function updatedCity(response) {
     let temp = Math.round(response.data.temperature.current);
     tempElement.textContent = `${temp}`;
   }
+
   descriptionElement.innerHTML = response.data.condition.description;
   humidityElement.innerHTML = `${response.data.temperature.humidity}%`;
 
