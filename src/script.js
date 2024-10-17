@@ -22,47 +22,48 @@ function updatedCity(response) {
   let windElement = document.querySelector("#wind");
   let dayElement = document.querySelector("#day-Today");
   let iconElement = document.querySelector("#icon");
+
   let unixTime = response.data.time;
 
-  iconElement.innerHTML = ` <img src ="${response.data.condition.icon_url}"  class="current-temp-icon">`;
+  iconElement.innerHTML = `<img src="${response.data.condition.icon_url}" class="current-temp-icon">`;
 
-  if (cityElement) {
-    cityElement.textContent = cityName;
-  }
-  if (tempElement) {
-    let temp = Math.round(response.data.temperature.current);
-    tempElement.textContent = `${temp}`;
-  }
-
-  descriptionElement.innerHTML = response.data.condition.description;
-  humidityElement.innerHTML = `${response.data.temperature.humidity}%`;
+  if (cityElement) cityElement.textContent = cityName;
+  if (tempElement)
+    tempElement.textContent = Math.round(response.data.temperature.current);
+  descriptionElement.textContent = response.data.condition.description;
+  humidityElement.textContent = `${response.data.temperature.humidity}%`;
 
   let windSpeedKmh = response.data.wind.speed;
   let windSpeedMph = (windSpeedKmh * 0.621371).toFixed(2);
-  windElement.innerHTML = `${windSpeedMph} mph`;
+  windElement.textContent = `${windSpeedMph} mph`;
 
   let localDate = new Date(unixTime * 1000);
-  dayElement.innerHTML = formatDate(localDate);
-  updateTimeWithAPI(unixTime);
+  dayElement.textContent = formatDate(localDate);
+  updateTimeWithAPI(localDate);
+
+  let latitude = response.data.coordinates.latitude;
+  let longitude = response.data.coordinates.longitude;
+  retrieveForecast(latitude, longitude);
+}
+
+function retrieveForecast(lat, lon) {
+  let forecastApiUrl = `https://api.shecodes.io/weather/v1/forecast?lon=${lon}&lat=${lat}&key=e5d23o984ba0b21973288194ctbda24f`;
+  axios.get(forecastApiUrl).then(displayForecast);
 }
 
 function formatDate(date) {
-  let day = days[date.getDay()];
-  return `${day}`;
+  return days[date.getDay()];
 }
 
-function updateTimeWithAPI(unixTime) {
-  let localTime = new Date(unixTime * 1000);
-
-  let hours = localTime.getUTCHours();
-  let minutes = localTime.getUTCMinutes();
+function updateTimeWithAPI(localDate) {
+  let hours = localDate.getHours();
+  let minutes = localDate.getMinutes();
   let ampm = hours >= 12 ? ` PM` : ` AM`;
   hours = hours % 12;
   hours = hours ? hours : 12;
-  minutes = minutes < 10 ? `0` + minutes : minutes;
+  minutes = minutes < 10 ? `0${minutes}` : minutes;
 
   let currentTime = `${hours}:${minutes}${ampm}`;
-
   let timeElement = document.querySelector("#current-time");
   if (timeElement) {
     timeElement.textContent = currentTime;
