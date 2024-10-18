@@ -27,9 +27,13 @@ function updatedCity(response) {
 
   iconElement.innerHTML = `<img src="${response.data.condition.icon_url}" class="current-temp-icon">`;
 
-  if (cityElement) cityElement.textContent = cityName;
-  if (tempElement)
+  if (cityElement) {
+    cityElement.textContent = cityName;
+  }
+  if (tempElement) {
     tempElement.textContent = Math.round(response.data.temperature.current);
+  }
+
   descriptionElement.textContent = response.data.condition.description;
   humidityElement.textContent = `${response.data.temperature.humidity}%`;
 
@@ -78,17 +82,15 @@ function chngCity(event) {
   }
 }
 
-window.onload = function () {
-  let defaultCity = "Gaza";
-  retrieveWeather(defaultCity);
+let defaultCity = "Gaza";
+retrieveWeather(defaultCity);
 
-  let form = document.querySelector("#city-form");
-  if (form) {
-    form.addEventListener("submit", chngCity);
-  }
+let form = document.querySelector("#city-form");
+if (form) {
+  form.addEventListener("submit", chngCity);
+}
 
-  let searchButton = document.querySelector("#search-city-click");
-  if (searchButton) {
-    searchButton.addEventListener("click", chngCity);
-  }
-};
+let searchButton = document.querySelector("#search-city-click");
+if (searchButton) {
+  searchButton.addEventListener("click", chngCity);
+}
